@@ -1,7 +1,9 @@
 package ryan.mlbackend.entity;
 
-import com.sun.istack.NotNull;
 
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 
@@ -14,27 +16,33 @@ public class User {
     private Integer id;
 
     @NotNull
-    @Column(unique=true)
-    private String email;
+    @Column(unique = true)
+    private String username;
+
+    @JsonManagedReference
+    @OneToOne(mappedBy = "user")
+    private UserInfo userInfo;
 
     @NotNull
     private String password;
 
-    private String username="";
-    private String first_name="";
-    private String last_name="";
-    private String gender="";
+    private boolean enabled;
 
 
-    public User() {
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getEmail() {
-        return email;
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 
     public String getPassword() {
@@ -45,35 +53,11 @@ public class User {
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
-    public String getLast_name() {
-        return last_name;
-    }
-
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

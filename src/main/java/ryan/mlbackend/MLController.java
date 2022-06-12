@@ -3,14 +3,13 @@ package ryan.mlbackend;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ryan.mlbackend.entity.Session;
-import ryan.mlbackend.entity.User;
+import ryan.mlbackend.entity.UserInfo;
 import ryan.mlbackend.repository.SessionRepository;
 import ryan.mlbackend.repository.UserRepository;
-import ryan.mlbackend.mapping_return_result.LoginResult;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -39,9 +38,9 @@ public class MLController {
     }
 
     @GetMapping("/getUser/")
-    public User getUser(@CookieValue(value = "email",defaultValue = "") String email, @CookieValue(value = "s_password",defaultValue = "") String s_password){
+    public UserInfo getUser(@CookieValue(value = "email",defaultValue = "") String email, @CookieValue(value = "s_password",defaultValue = "") String s_password){
 
-        User u = null;
+        UserInfo u = null;
 
 
 
@@ -49,6 +48,7 @@ public class MLController {
         return u;
     }
 
+    /*
     //first check the login details, then check the session table
     //if the user already has a session, update it
     @PostMapping("/login")
@@ -114,23 +114,13 @@ public class MLController {
         return returnResult;
     }
 
+     */
+
     @PostMapping("/signup")
     public boolean signUp(@RequestBody String s) throws JsonProcessingException {
         boolean res=false;
 
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode parsedS = mapper.readTree(s);
 
-        User newUser = new User();
-        newUser.setFirst_name(parsedS.get("firstName").textValue());
-        newUser.setLast_name(parsedS.get("lastName").textValue());
-        newUser.setEmail(parsedS.get("email").textValue());
-        newUser.setPassword(parsedS.get("password").textValue());
-
-        User savedUser = userRepository.save(newUser);
-        if(savedUser.getEmail().length()>0){
-            res = true;
-        }
 
         return res;
     }
